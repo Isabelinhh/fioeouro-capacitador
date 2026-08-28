@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ouro & Fio — Studio de Cabelo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0b0b0c;
+    --black-soft:#131214;
+    --charcoal:#1b1a1d;
+    --cream:#f6f1e7;
+    --cream-dim:#c8c1b3;
+    --gold:#c6a15b;
+    --gold-light:#e8d3a0;
+    --gold-deep:#8b6f3e;
+    --line: rgba(198,161,91,0.22);
+    --line-light: rgba(246,241,231,0.08);
+    --serif: 'Fraunces', serif;
+    --sans: 'Jost', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--cream);
+    font-family:var(--sans);
+    font-weight:300;
+    overflow-x:hidden;
+    letter-spacing: 0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:pointer;}
+  ::selection{background:var(--gold);color:var(--black);}
+
+  .eyebrow{
+    font-family:var(--sans);
+    text-transform:uppercase;
+    letter-spacing:0.3em;
+    font-size:0.75rem;
+    color:var(--gold);
+    font-weight:500;
+  }
+
+  /* thread divider — signature motif */
+  .thread{
+    width:100%;
+    height:28px;
+    display:block;
+    margin:0 auto;
+  }
+  .thread path{
+    fill:none;
+    stroke:var(--gold);
+    stroke-width:1.2;
+    stroke-linecap:round;
+    stroke-dasharray:900;
+    stroke-dashoffset:900;
+    animation:draw 2.4s ease forwards;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:24px 6vw;
+    background:linear-gradient(to bottom, rgba(11,11,12,0.95), rgba(11,11,12,0));
+    transition:all .4s ease;
+  }
+  header.scrolled{
+    padding:16px 6vw;
+    background:rgba(11,11,12,0.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  }
+  .logo{
+    font-family:var(--serif);
+    font-size:1.4rem;
+    letter-spacing:0.06em;
+    font-weight:500;
+  }
+  .logo span{color:var(--gold);font-style:italic;font-weight:400;}
+  nav ul{display:flex;gap:2.8rem;}
+  nav a{
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    position:relative;
+    padding-bottom:4px;
+    color:var(--cream-dim);
+    transition:color .3s;
+  }
+  nav a:hover{color:var(--cream);}
+  nav a::after{
+    content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);
+    transition:width .3s ease;
+  }
+  nav a:hover::after{width:100%;}
+  .nav-cta{
+    border:1px solid var(--gold);
+    padding:10px 24px;
+    font-size:0.75rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    transition:all .3s ease;
+    border-radius:1px;
+  }
+  .nav-cta:hover{background:var(--gold);color:var(--black);box-shadow:0 0 15px rgba(198,161,91,0.3);}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:110;}
+  .burger span{width:26px;height:1px;background:var(--cream);display:block;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    padding:140px 6vw 60px;
+    position:relative;
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(198,161,91,0.12), transparent 70%),
+      radial-gradient(circle at 50% 100%, rgba(27,26,29,0.8), transparent 80%),
+      var(--black);
+  }
+  .hero-eyebrow{margin-bottom:24px;}
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(2.8rem, 7.5vw, 5.8rem);
+    line-height:1.08;
+    max-width:16ch;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--gold-light);
+    background: linear-gradient(135deg, #fff 0%, var(--gold-light) 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p{
+    font-family:var(--sans);
+    font-weight:300;
+    font-size:1.1rem;
+    color:var(--cream-dim);
+    margin-top:28px;
+    max-width:44ch;
+    line-height:1.8;
+  }
+  .hero-actions{
+    margin-top:48px;
+    display:flex;gap:20px;flex-wrap:wrap;justify-content:center;
+  }
+  .btn-gold{
+    background:var(--gold);
+    color:var(--black);
+    border:1px solid var(--gold);
+    padding:16px 36px;
+    font-size:0.8rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    font-weight:600;
+    transition:all .3s ease;
+    border-radius:1px;
+    box-shadow:0 4px 20px rgba(198,161,91,0.15);
+  }
+  .btn-gold:hover{background:transparent;color:var(--gold);box-shadow:0 4px 25px rgba(198,161,91,0.25);}
+  .btn-outline{
+    border:1px solid rgba(246,241,231,0.25);
+    color:var(--cream);
+    padding:16px 36px;
+    font-size:0.8rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    transition:all .3s ease;
+    border-radius:1px;
+  }
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold);background:rgba(198,161,91,0.05);}
+  .hero .thread{margin-top:80px;max-width:340px;}
+
+  /* ---------- SECTION WRAP ---------- */
+  section{padding:140px 6vw;}
+  .section-head{
+    text-align:center;max-width:640px;margin:0 auto 80px;
+  }
+  .section-head h2{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(2.2rem, 4.5vw, 3.2rem);
+    margin-top:16px;
+    line-height:1.18;
+  }
+  .section-head p{
+    margin-top:20px;color:var(--cream-dim);line-height:1.8;font-size:1rem;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    background:var(--black-soft);
+    display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center;
+    border-top:1px solid var(--line-light);
+    border-bottom:1px solid var(--line-light);
+  }
+  .about-copy .eyebrow{display:block;margin-bottom:18px;}
+  .about-copy h2{
+    font-family:var(--serif);font-weight:400;font-size:clamp(2rem,3.6vw,2.8rem);line-height:1.2;
+  }
+  .about-copy p{margin-top:24px;color:var(--cream-dim);line-height:1.8;font-size:1rem;}
+  .about-stats{display:flex;gap:48px;margin-top:48px;padding-top:32px;border-top:1px solid var(--line-light);}
+  .about-stats div strong{
+    display:block;font-family:var(--serif);font-size:2.4rem;color:var(--gold-light);font-weight:400;
+  }
+  .about-stats div span{font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--cream-dim);}
+  .about-art{
+    aspect-ratio:1/1.15;
+    border:1px solid var(--line);
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle, rgba(198,161,91,0.05) 0%, transparent 70%);
+  }
+  .about-art svg{width:55%;filter:drop-shadow(0 0 10px rgba(198,161,91,0.2));}
+
+  /* ---------- SERVICES MENU ---------- */
+  .services{background:var(--black);}
+  .menu-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:70px 100px;
+    max-width:1100px;margin:0 auto;
+  }
+  .menu-cat h3{
+    font-family:var(--serif);
+    font-style:italic;font-weight:400;
+    font-size:1.6rem;color:var(--gold-light);
+    margin-bottom:30px;
+    padding-bottom:14px;border-bottom:1px solid var(--line);
+  }
+  .menu-item{
+    display:flex;align-items:baseline;gap:12px;
+    margin-bottom:24px;
+  }
+  .menu-item .name{font-size:1.02rem;color:var(--cream);white-space:nowrap;font-weight:400;}
+  .menu-item .name small{display:block;color:var(--cream-dim);font-size:0.8rem;margin-top:4px;font-weight:300;}
+  .menu-item .dots{flex:1;border-bottom:1px dotted var(--line);transform:translateY(-4px);opacity:0.6;}
+  .menu-item .price{font-family:var(--serif);color:var(--gold);white-space:nowrap;font-size:1.1rem;font-weight:500;}
+
+  /* ---------- TEAM ---------- */
+  .team{background:var(--black-soft);border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light);}
+  .team-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:40px;
+  }
+  .stylist{
+    text-align:center;
+    padding:30px 20px;
+    border:1px solid transparent;
+    transition:all .3s ease;
+  }
+  .stylist:hover{
+    border-color:var(--line);
+    background:rgba(246,241,231,0.01);
+  }
+  .avatar{
+    width:120px;height:120px;border-radius:50%;
+    border:1px solid var(--gold);
+    margin:0 auto 24px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-style:italic;font-size:1.8rem;color:var(--gold-light);
+    position:relative;
+    box-shadow:0 0 20px rgba(198,161,91,0.1);
+  }
+  .avatar::before{
+    content:'';position:absolute;inset:-8px;border:1px solid var(--line);border-radius:50%;
+  }
+  .stylist h4{font-family:var(--serif);font-weight:400;font-size:1.25rem;}
+  .stylist span{display:block;margin-top:8px;color:var(--gold);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;}
+
+  /* ---------- BOOKING ---------- */
+  .booking{background:var(--black);}
+  .booking-wrap{
+    max-width:860px;margin:0 auto;
+    border:1px solid var(--line);
+    padding:64px;
+    position:relative;
+    background:var(--black-soft);
+    box-shadow:0 20px 50px rgba(0,0,0,0.5);
+  }
+  .steps{display:flex;justify-content:space-between;margin-bottom:56px;}
+  .step{flex:1;text-align:center;position:relative;}
+  .step:not(:last-child)::after{
+    content:'';position:absolute;top:14px;left:56%;right:-44%;height:1px;background:var(--line-light);
+  }
+  .step .dot{
+    width:30px;height:30px;border-radius:50%;border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 12px;
+    font-size:0.8rem;color:var(--cream-dim);background:var(--black-soft);position:relative;z-index:2;
+    transition:all .3s ease;
+  }
+  .step.active .dot{border-color:var(--gold);color:var(--gold);box-shadow:0 0 12px rgba(198,161,91,0.3);}
+  .step.done .dot{background:var(--gold);border-color:var(--gold);color:var(--black);font-weight:600;}
+  .step label{font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--cream-dim);}
+  .step.active label{color:var(--gold-light);font-weight:500;}
+
+  .b-panel{display:none;}
+  .b-panel.active{display:block;animation:fadein .4s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+  .b-title{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-bottom:32px;text-align:center;}
+
+  .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .choice{
+    border:1px solid var(--line-light);padding:20px 22px;
+    display:flex;justify-content:space-between;align-items:center;
+    transition:all .25s ease;
+    cursor:pointer;
+    background:rgba(255,255,255,0.01);
+  }
+  .choice:hover{border-color:var(--gold);background:rgba(198,161,91,0.03);}
+  .choice.selected{border-color:var(--gold);background:rgba(198,161,91,0.08);box-shadow:0 0 15px rgba(198,161,91,0.1);}
+  .choice .cname{font-size:0.95rem;}
+  .choice .cname small{display:block;color:var(--cream-dim);font-size:0.75rem;margin-top:4px;}
+  .choice .cprice{font-family:var(--serif);color:var(--gold);font-weight:500;}
+
+  .field{margin-bottom:24px;}
+  .field label{display:block;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:10px;}
+  .field input, .field select{
+    width:100%;background:rgba(11,11,12,0.5);border:1px solid var(--line-light);
+    color:var(--cream);padding:14px 16px;font-family:var(--sans);font-size:0.95rem;
+    transition:border-color .3s;
+  }
+  .field input:focus, .field select:focus{outline:none;border-color:var(--gold);}
+  .field input::placeholder{color:rgba(246,241,231,0.25);}
+
+  /* ---------- CAMERA ---------- */
+  .camera-box{
+    border:1px solid var(--line-light);
+    background:rgba(11,11,12,0.4);
+    min-height:180px;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .camera-empty{
+    text-align:center;padding:36px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;
+  }
+  .camera-empty p{color:var(--cream-dim);font-size:0.88rem;line-height:1.6;max-width:34ch;}
+  .camera-empty svg{margin-bottom:2px;}
+  .camera-empty .btn-outline{padding:12px 26px;font-size:0.75rem;margin-top:8px;}
+
+  .camera-live{width:100%;position:relative;}
+  .camera-live video{
+    width:100%;max-height:360px;object-fit:cover;display:block;
+    transform:scaleX(-1);
+    background:#000;
+  }
+  .camera-live-actions{
+    display:flex;justify-content:center;gap:14px;
+    padding:18px;background:var(--black-soft);
+  }
+  .camera-live-actions .btn-outline, .camera-live-actions .btn-gold{padding:12px 26px;font-size:0.76rem;}
+
+  .camera-result{width:100%;position:relative;}
+  .camera-result img{width:100%;max-height:360px;object-fit:cover;display:block;transform:scaleX(-1);}
+  .camera-result-actions{
+    position:absolute;bottom:14px;left:0;right:0;
+    display:flex;justify-content:center;gap:12px;
+  }
+  .camera-result-actions .btn-outline{
+    background:rgba(11,11,12,0.85);backdrop-filter:blur(6px);
+    padding:11px 22px;font-size:0.76rem;
+  }
+  .cam-remove{
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(11,11,12,0.85);backdrop-filter:blur(6px);
+    border:1px solid var(--line);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;font-size:0.9rem;
+    transition:.2s;
+  }
+  .cam-remove:hover{border-color:var(--gold);color:var(--gold);}
+
+  .camera-box.cam-error{border-color:rgba(198,90,90,0.4);}
+  .camera-error-msg{
+    text-align:center;padding:30px 24px;color:#d99a9a;font-size:0.85rem;line-height:1.6;max-width:36ch;
+  }
+
+  .slots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:10px;}
+  .slot{
+    border:1px solid var(--line-light);padding:14px 8px;text-align:center;font-size:0.88rem;
+    transition:all .2s ease;cursor:pointer;background:rgba(11,11,12,0.3);
+  }
+  .slot.avail:hover{border-color:var(--gold);color:var(--gold);background:rgba(198,161,91,0.05);}
+  .slot.selected{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:500;}
+  .slot.taken{opacity:0.25;text-decoration:line-through;cursor:not-allowed;}
+
+  .b-nav{display:flex;justify-content:space-between;margin-top:44px;}
+  .b-back{color:var(--cream-dim);font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;align-self:center;background:none;border:none;transition:color .2s;}
+  .b-back:hover{color:var(--gold);}
+
+  .summary-row{display:flex;justify-content:space-between;padding:16px 0;border-bottom:1px dotted var(--line);font-size:0.95rem;}
+  .summary-row span:first-child{color:var(--cream-dim);}
+  .summary-row.total{border-bottom:none;padding-top:24px;font-family:var(--serif);font-size:1.3rem;color:var(--gold);}
+
+  /* seal confirmation */
+  .b-confirm{text-align:center;padding:24px 0;}
+  .seal{
+    width:100px;height:100px;border-radius:50%;
+    border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 28px;
+    font-family:var(--serif);font-style:italic;color:var(--gold);
+    transform:scale(0) rotate(-25deg);
+    animation:stamp .6s cubic-bezier(.2,1.4,.4,1) forwards .1s;
+    position:relative;
+    box-shadow:0 0 20px rgba(198,161,91,0.2);
+  }
+  .seal::before{content:'';position:absolute;inset:6px;border:1px solid var(--gold);border-radius:50%;}
+  @keyframes stamp{to{transform:scale(1) rotate(-8deg);}}
+  .b-confirm h3{font-family:var(--serif);font-size:1.8rem;font-weight:400;margin-bottom:12px;}
+  .b-confirm p{color:var(--cream-dim);line-height:1.8;max-width:38ch;margin:0 auto 32px;font-size:0.95rem;}
+  .confirm-code{
+    display:inline-block;border:1px dashed var(--line);padding:12px 24px;
+    font-family:var(--serif);letter-spacing:0.12em;color:var(--gold-light);margin-bottom:32px;
+    background:rgba(198,161,91,0.03);
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{background:var(--black);text-align:center;}
+  .t-wrap{max-width:720px;margin:0 auto;min-height:180px;position:relative;}
+  .t-slide{
+    position:absolute;inset:0;opacity:0;transition:opacity .6s ease;
+  }
+  .t-slide.active{opacity:1;position:relative;}
+  .t-slide p{font-family:var(--serif);font-style:italic;font-size:1.6rem;line-height:1.5;color:var(--cream);}
+  .t-slide cite{display:block;margin-top:24px;font-style:normal;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);}
+  .t-dots{display:flex;justify-content:center;gap:10px;margin-top:40px;}
+  .t-dots span{width:8px;height:8px;border-radius:50%;background:var(--line-light);cursor:pointer;transition:.3s;}
+  .t-dots span.active{background:var(--gold);box-shadow:0 0 8px var(--gold);}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{
+    background:var(--black-soft);
+    padding:110px 6vw 40px;
+    border-top:1px solid var(--line-light);
+  }
+  .footer-grid{
+    display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:60px;
+    max-width:1200px;margin:0 auto;padding-bottom:70px;
+  }
+  .f-logo{font-family:var(--serif);font-size:1.5rem;margin-bottom:18px;letter-spacing:0.04em;}
+  .f-logo span{color:var(--gold);font-style:italic;}
+  .footer-grid p{color:var(--cream-dim);font-size:0.9rem;line-height:1.8;max-width:32ch;}
+  .footer-grid h5{font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+  .footer-grid ul li{margin-bottom:14px;font-size:0.9rem;color:var(--cream-dim);}
+  .footer-grid ul li a{transition:color .3s;}
+  .footer-grid ul li a:hover{color:var(--gold);}
+  .socials{display:flex;gap:14px;margin-top:24px;}
+  .socials a{
+    width:38px;height:38px;border:1px solid var(--line-light);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:0.8rem;transition:all .3s ease;
+  }
+  .socials a:hover{border-color:var(--gold);color:var(--gold);box-shadow:0 0 10px rgba(198,161,91,0.2);}
+  .footer-bottom{
+    max-width:1200px;margin:0 auto;padding-top:32px;border-top:1px solid var(--line-light);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    font-size:0.78rem;color:rgba(200,193,179,0.6);letter-spacing:0.03em;
+  }
+
+  /* toast */
+  #toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(30px);
+    background:var(--gold);color:var(--black);padding:14px 28px;font-size:0.85rem;
+    letter-spacing:0.04em;font-weight:500;opacity:0;pointer-events:none;transition:.35s ease;z-index:200;
+    box-shadow:0 10px 25px rgba(0,0,0,0.5);
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:920px){
+    nav, .nav-cta{display:none;}
+    .burger{display:flex;}
+    .about, .menu-grid, .team-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .choice-grid{grid-template-columns:1fr;}
+    .booking-wrap{padding:40px 24px;}
+    .slots{grid-template-columns:repeat(3,1fr);}
+    section{padding:90px 6vw;}
+  }
+  @media (max-width:520px){
+    .footer-grid{grid-template-columns:1fr;}
+    .slots{grid-template-columns:repeat(2,1fr);}
+    .steps label{display:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="siteHeader">
+  <div class="logo">OURO <span>&</span> FIO</div>
+  <nav>
+    <ul>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#equipe">Equipe</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+  <a href="#agendar" class="nav-cta">Agendar</a>
+  <div class="burger" id="burger"><span></span><span></span><span></span></div>
+</header>
+
+<!-- mobile menu -->
+<div id="mobileMenu" style="display:none;position:fixed;inset:0;background:var(--black);z-index:105;flex-direction:column;align-items:center;justify-content:center;gap:34px;">
+  <a href="#sobre" class="mlink">Sobre</a>
+  <a href="#servicos" class="mlink">Serviços</a>
+  <a href="#equipe" class="mlink">Equipe</a>
+  <a href="#agendar" class="mlink">Agendar</a>
+  <a href="#contato" class="mlink">Contato</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-eyebrow eyebrow">Studio de cabelo — desde 2014</div>
+  <h1>Onde cada <em>fio</em> conta uma história.</h1>
+  <p>Coloração, corte e tratamento com a precisão de um ateliê e o brilho de um acabamento dourado. Em Sorocaba, para quem não abre mão de detalhe.</p>
+  <div class="hero-actions">
+    <a href="#agendar" class="btn-gold">Agendar horário</a>
+    <a href="#servicos" class="btn-outline">Ver serviços</a>
+  </div>
+  <svg class="thread" viewBox="0 0 340 28" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 14 C 40 0, 60 28, 100 14 S 160 0, 200 14 S 260 28, 300 14 S 320 4, 340 14"/>
+  </svg>
+</section>
+
+<!-- ===== SOBRE ===== -->
+<section class="about" id="sobre">
+  <div class="about-copy">
+    <span class="eyebrow">Nossa filosofia</span>
+    <h2>Técnica de ateliê,<br>acabamento de joalheria.</h2>
+    <p>Acreditamos que cabelo é o fio condutor da sua imagem — por isso tratamos cada coloração como uma peça sob medida. Nossa equipe é formada em técnicas internacionais de colorimetria e usa apenas produtos de curadoria própria, sem sulfatos agressivos.</p>
+    <p>Do primeiro diagnóstico capilar ao brilho final, cada etapa é pensada para durar — na saúde do fio e na confiança de quem o carrega.</p>
+    <div class="about-stats">
+      <div><strong>11</strong><span>anos de studio</span></div>
+      <div><strong>4.9</strong><span>avaliação média</span></div>
+      <div><strong>+6mil</strong><span>atendimentos</span></div>
+    </div>
+  </div>
+  <div class="about-art">
+    <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#c6a15b" stroke-width="1.1">
+      <circle cx="60" cy="60" r="16"/>
+      <circle cx="60" cy="140" r="16"/>
+      <line x1="72" y1="72" x2="170" y2="30" stroke-linecap="round"/>
+      <line x1="72" y1="128" x2="170" y2="30" stroke-linecap="round"/>
+      <line x1="72" y1="72" x2="46" y2="128" stroke-linecap="round"/>
+      <path d="M170 30 c10 -6 22 -2 24 8 c2 10 -8 18 -18 14" stroke-linecap="round"/>
+      <path d="M20 190 C 60 170, 100 210, 140 185 S 190 165, 200 190" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===== SERVIÇOS ===== -->
+<section class="services" id="servicos">
+  <div class="section-head">
+    <span class="eyebrow">Cardápio de serviços</span>
+    <h2>Serviços & valores</h2>
+    <p>Preços de referência — o valor final é ajustado no diagnóstico presencial, conforme comprimento e histórico do fio.</p>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-cat">
+      <h3>Cabelo</h3>
+      <div class="menu-item"><span class="name">Corte feminino<small>Lavagem, corte e finalização</small></span><span class="dots"></span><span class="price">R$ 120</span></div>
+      <div class="menu-item"><span class="name">Corte masculino<small>Máquina e tesoura</small></span><span class="dots"></span><span class="price">R$ 70</span></div>
+      <div class="menu-item"><span class="name">Escova modelada<small>Liso ou volumoso</small></span><span class="dots"></span><span class="price">R$ 90</span></div>
+      <div class="menu-item"><span class="name">Penteado para evento<small>Preso ou solto</small></span><span class="dots"></span><span class="price">R$ 180</span></div>
+    </div>
+    <div class="menu-cat">
+      <h3>Coloração</h3>
+      <div class="menu-item"><span class="name">Coloração global<small>Cobertura completa</small></span><span class="dots"></span><span class="price">R$ 220</span></div>
+      <div class="menu-item"><span class="name">Mechas / Balayage<small>Técnica manual</small></span><span class="dots"></span><span class="price">R$ 380</span></div>
+      <div class="menu-item"><span class="name">Loiro platinado<small>Descoloração + matização</small></span><span class="dots"></span><span class="price">R$ 450</span></div>
+      <div class="menu-item"><span class="name">Retoque de raiz<small>Até 3cm</small></span><span class="dots"></span><span class="price">R$ 150</span></div>
+    </div>
+    <div class="menu-cat">
+      <h3>Tratamentos</h3>
+      <div class="menu-item"><span class="name">Hidratação profunda<small>Nutrição intensiva</small></span><span class="dots"></span><span class="price">R$ 95</span></div>
+      <div class="menu-item"><span class="name">Botox capilar<small>Redução de volume</small></span><span class="dots"></span><span class="price">R$ 160</span></div>
+      <div class="menu-item"><span class="name">Reconstrução de fibra<small>Cauterização</small></span><span class="dots"></span><span class="price">R$ 140</span></div>
+    </div>
+    <div class="menu-cat">
+      <h3>Design</h3>
+      <div class="menu-item"><span class="name">Sobrancelha<small>Design + henna</small></span><span class="dots"></span><span class="price">R$ 60</span></div>
+      <div class="menu-item"><span class="name">Manicure & pedicure<small>Esmaltação em gel</small></span><span class="dots"></span><span class="price">R$ 85</span></div>
+      <div class="menu-item"><span class="name">Barba<small>Toalha quente + navalha</small></span><span class="dots"></span><span class="price">R$ 55</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EQUIPE ===== -->
+<section class="team" id="equipe">
+  <div class="section-head">
+    <span class="eyebrow">Quem cuida do seu fio</span>
+    <h2>Nossa equipe</h2>
+  </div>
+  <div class="team-grid">
+    <div class="stylist"><div class="avatar">C</div><h4>Camila Duarte</h4><span>Coloração</span></div>
+    <div class="stylist"><div class="avatar">R</div><h4>Rafael Nunes</h4><span>Cortes</span></div>
+    <div class="stylist"><div class="avatar">B</div><h4>Bianca Alves</h4><span>Tratamentos</span></div>
+    <div class="stylist"><div class="avatar">T</div><h4>Thiago Reis</h4><span>Barba & corte</span></div>
+  </div>
+</section>
+
+<!-- ===== AGENDAMENTO ===== -->
+<section class="booking" id="agendar">
+  <div class="section-head">
+    <span class="eyebrow">Reserve seu horário</span>
+    <h2>Agendamento</h2>
+    <p>Sistema totalmente funcional em seu navegador — sem envio de dados a servidores. Ao recarregar a página, os horários voltam ao estado inicial.</p>
+  </div>
+
+  <div class="booking-wrap">
+    <div class="steps">
+      <div class="step active" data-step="1"><div class="dot">1</div><label>Serviço</label></div>
+      <div class="step" data-step="2"><div class="dot">2</div><label>Profissional</label></div>
+      <div class="step" data-step="3"><div class="dot">3</div><label>Data & hora</label></div>
+      <div class="step" data-step="4"><div class="dot">4</div><label>Seus dados</label></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="b-panel active" data-panel="1">
+      <div class="b-title">Escolha o serviço</div>
+      <div class="choice-grid" id="serviceGrid"></div>
+      <div class="b-nav"><span></span><button class="btn-gold" id="toStep2" disabled>Continuar</button></div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="b-panel" data-panel="2">
+      <div class="b-title">Escolha a profissional</div>
+      <div class="choice-grid" id="stylistGrid"></div>
+      <div class="b-nav"><button class="b-back" data-back="1">← Voltar</button><button class="btn-gold" id="toStep3" disabled>Continuar</button></div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="b-panel" data-panel="3">
+      <div class="b-title">Escolha data e horário</div>
+      <div class="field">
+        <label>Data</label>
+        <input type="date" id="dateInput">
+      </div>
+      <div class="field">
+        <label>Horários disponíveis</label>
+        <div class="slots" id="slotsGrid"></div>
+      </div>
+      <div class="b-nav"><button class="b-back" data-back="2">← Voltar</button><button class="btn-gold" id="toStep4" disabled>Continuar</button></div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="b-panel" data-panel="4">
+      <div class="b-title">Confirme seus dados</div>
+      <div class="field"><label>Nome completo</label><input type="text" id="nameInput" placeholder="Seu nome"></div>
+      <div class="field"><label>Telefone / WhatsApp</label><input type="tel" id="phoneInput" placeholder="(15) 90000-0000"></div>
+
+      <div class="field">
+        <label>Foto de referência (opcional)</label>
+        <div class="camera-box" id="cameraBox">
+          <div class="camera-empty" id="cameraEmpty">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c6a15b" stroke-width="1.3"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.4"/></svg>
+            <p>Mostre à cabeleireira o corte, cor ou inspiração que você tem em mente.</p>
+            <button type="button" class="btn-outline" id="camOpenBtn">Ativar câmera</button>
+          </div>
+
+          <div class="camera-live" id="cameraLive" style="display:none;">
+            <video id="camVideo" autoplay playsinline muted></video>
+            <div class="camera-live-actions">
+              <button type="button" class="btn-outline" id="camCancelBtn">Cancelar</button>
+              <button type="button" class="btn-gold" id="camShotBtn">Capturar foto</button>
+            </div>
+          </div>
+
+          <div class="camera-result" id="cameraResult" style="display:none;">
+            <img id="camPhoto" alt="Foto de referência capturada">
+            <div class="camera-result-actions">
+              <button type="button" class="btn-outline" id="camRetakeBtn">Tirar outra</button>
+              <button type="button" class="cam-remove" id="camRemoveBtn" aria-label="Remover foto">✕</button>
+            </div>
+          </div>
+        </div>
+        <canvas id="camCanvas" style="display:none;"></canvas>
+      </div>
+
+      <div style="margin:28px 0;">
+        <div class="summary-row"><span>Serviço</span><span id="sumService">—</span></div>
+        <div class="summary-row"><span>Profissional</span><span id="sumStylist">—</span></div>
+        <div class="summary-row"><span>Data & hora</span><span id="sumDate">—</span></div>
+        <div class="summary-row" id="sumPhotoRow" style="display:none;"><span>Foto de referência</span><span id="sumPhoto">Anexada</span></div>
+        <div class="summary-row total"><span>Total estimado</span><span id="sumPrice">—</span></div>
+      </div>
+      <div class="b-nav"><button class="b-back" data-back="3">← Voltar</button><button class="btn-gold" id="confirmBtn">Confirmar agendamento</button></div>
+    </div>
+
+    <!-- CONFIRMATION -->
+    <div class="b-panel" data-panel="5">
+      <div class="b-confirm">
+        <div class="seal">✓</div>
+        <h3>Agendamento confirmado</h3>
+        <p id="confirmText">Seu horário foi reservado com sucesso. Enviaremos um lembrete por WhatsApp na véspera.</p>
+        <div class="confirm-code" id="confirmCode">#OF-0000</div>
+        <div><button class="btn-outline" id="newBooking">Novo agendamento</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DEPOIMENTOS ===== -->
+<section class="testimonials">
+  <div class="section-head" style="margin-bottom:40px;">
+    <span class="eyebrow">Quem já passou por aqui</span>
+    <h2>Depoimentos</h2>
+  </div>
+  <div class="t-wrap" id="tWrap"></div>
+  <div class="t-dots" id="tDots"></div>
+</section>
+
+<!-- ===== FOOTER / CONTATO ===== -->
+<footer id="contato">
+  <div class="footer-grid">
+    <div>
+      <div class="f-logo">OURO <span>&</span> FIO</div>
+      <p>Studio de cabelo em Sorocaba dedicado a coloração, cortes e tratamentos com acabamento de precisão.</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="WhatsApp">WA</a>
+        <a href="#" aria-label="Facebook">FB</a>
+      </div>
+    </div>
+    <div>
+      <h5>Studio</h5>
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#equipe">Equipe</a></li>
+        <li><a href="#agendar">Agendar</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Horários</h5>
+      <ul>
+        <li>Ter – Sex: 9h às 19h</li>
+        <li>Sábado: 9h às 17h</li>
+        <li>Domingo e segunda: fechado</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contato</h5>
+      <ul>
+        <li>Rua das Palmeiras, 214 — Centro</li>
+        <li>Sorocaba, SP</li>
+        <li>(15) 3222-0000</li>
+        <li>contato@ouroefio.com.br</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Ouro & Fio Studio de Cabelo. Todos os direitos reservados.</span>
+    <span>Site institucional — sem coleta ou armazenamento de dados em servidor.</span>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+/* ========================================================
+   OURO & FIO — lógica funcional, 100% em memória (sem BD)
+   ======================================================== */
+
+// ---------- header scroll state ----------
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ---------- mobile menu ----------
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = mobileMenu.style.display === 'flex';
+  mobileMenu.style.display = open ? 'none' : 'flex';
+});
+document.querySelectorAll('.mlink').forEach(l => l.addEventListener('click', () => mobileMenu.style.display = 'none'));
+
+// ---------- toast ----------
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ---------- data model (in-memory only) ----------
+const SERVICES = [
+  {id:'corte-fem', name:'Corte feminino', note:'50 min', price:120},
+  {id:'corte-masc', name:'Corte masculino', note:'30 min', price:70},
+  {id:'escova', name:'Escova modelada', note:'45 min', price:90},
+  {id:'coloracao', name:'Coloração global', note:'2h', price:220},
+  {id:'balayage', name:'Mechas / Balayage', note:'3h', price:380},
+  {id:'hidratacao', name:'Hidratação profunda', note:'40 min', price:95},
+  {id:'botox', name:'Botox capilar', note:'1h30', price:160},
+  {id:'barba', name:'Barba', note:'25 min', price:55},
+];
+
+const STYLISTS = [
+  {id:'camila', name:'Camila Duarte', spec:'Coloração'},
+  {id:'rafael', name:'Rafael Nunes', spec:'Cortes'},
+  {id:'bianca', name:'Bianca Alves', spec:'Tratamentos'},
+  {id:'thiago', name:'Thiago Reis', spec:'Barba & corte'},
+];
+
+const HOURS = ['09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00'];
+
+// simulated pre-existing bookings (occupied slots) — purely in memory
+let bookedSlots = new Set(['camila|__TODAY__|10:00','rafael|__TODAY__|14:00']);
+
+let state = { service:null, stylist:null, date:null, time:null };
+let bookingCounter = 128; // fake running counter for confirmation codes
+
+// ---------- render service choices ----------
+const serviceGrid = document.getElementById('serviceGrid');
+SERVICES.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'choice';
+  el.dataset.id = s.id;
+  el.innerHTML = `<span class="cname">${s.name}<small>${s.note}</small></span><span class="cprice">R$ ${s.price}</span>`;
+  el.addEventListener('click', () => {
+    document.querySelectorAll('#serviceGrid .choice').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    state.service = s;
+    document.getElementById('toStep2').disabled = false;
+  });
+  serviceGrid.appendChild(el);
+});
+
+// ---------- render stylist choices ----------
+const stylistGrid = document.getElementById('stylistGrid');
+STYLISTS.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'choice';
+  el.dataset.id = s.id;
+  el.innerHTML = `<span class="cname">${s.name}<small>${s.spec}</small></span><span class="cprice">›</span>`;
+  el.addEventListener('click', () => {
+    document.querySelectorAll('#stylistGrid .choice').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    state.stylist = s;
+    document.getElementById('toStep3').disabled = false;
+    renderSlots();
+  });
+  stylistGrid.appendChild(el);
+});
+
+// ---------- date input default = today, min = today ----------
+const dateInput = document.getElementById('dateInput');
+const today = new Date();
+const isoToday = today.toISOString().split('T')[0];
+dateInput.min = isoToday;
+dateInput.value = isoToday;
+dateInput.addEventListener('change', renderSlots);
+
+function renderSlots(){
+  const slotsGrid = document.getElementById('slotsGrid');
+  slotsGrid.innerHTML = '';
+  document.getElementById('toStep4').disabled = true;
+  state.time = null;
+  if(!state.stylist) return;
+
+  const dateKey = dateInput.value === isoToday ? '__TODAY__' : dateInput.value;
+
+  HOURS.forEach(h => {
+    const key = `${state.stylist.id}|${dateKey}|${h}`;
+    const taken = bookedSlots.has(key);
+    const el = document.createElement('div');
+    el.className = 'slot ' + (taken ? 'taken' : 'avail');
+    el.textContent = h;
+    if(!taken){
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+        el.classList.add('selected');
+        state.time = h;
+        state.date = dateInput.value;
+        document.getElementById('toStep4').disabled = false;
+      });
+    }
+    slotsGrid.appendChild(el);
+  });
+}
+
+// ---------- câmera (foto de referência) ----------
+const cameraBox = document.getElementById('cameraBox');
+const cameraEmpty = document.getElementById('cameraEmpty');
+const cameraLive = document.getElementById('cameraLive');
+const cameraResult = document.getElementById('cameraResult');
+const camVideo = document.getElementById('camVideo');
+const camPhoto = document.getElementById('camPhoto');
+const camCanvas = document.getElementById('camCanvas');
+const camOpenBtn = document.getElementById('camOpenBtn');
+const camCancelBtn = document.getElementById('camCancelBtn');
+const camShotBtn = document.getElementById('camShotBtn');
+const camRetakeBtn = document.getElementById('camRetakeBtn');
+const camRemoveBtn = document.getElementById('camRemoveBtn');
+const sumPhotoRow = document.getElementById('sumPhotoRow');
+
+let camStream = null;
+let capturedPhoto = null; // data URL, mantido só em memória
+
+function stopCamStream(){
+  if(camStream){
+    camStream.getTracks().forEach(t => t.stop());
+    camStream = null;
+  }
+}
+
+function showCamView(view){
+  // view: 'empty' | 'live' | 'result' | 'error'
+  cameraEmpty.style.display = view === 'empty' ? 'flex' : 'none';
+  cameraLive.style.display = view === 'live' ? 'block' : 'none';
+  cameraResult.style.display = view === 'result' ? 'block' : 'none';
+  cameraBox.classList.toggle('cam-error', view === 'error');
+}
+
+async function openCamera(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    showCamView('error');
+    cameraEmpty.innerHTML = '<div class="camera-error-msg">Este navegador não tem suporte a câmera. Você pode continuar sem a foto.</div>';
+    showCamView('empty');
+    return;
+  }
+  try{
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'user' },
+      audio:false
+    });
+    camVideo.srcObject = camStream;
+    showCamView('live');
+  }catch(err){
+    toast('Não foi possível acessar a câmera. Verifique a permissão do navegador.');
+  }
+}
+
+camOpenBtn.addEventListener('click', openCamera);
+
+camCancelBtn.addEventListener('click', () => {
+  stopCamStream();
+  showCamView('empty');
+});
+
+camShotBtn.addEventListener('click', () => {
+  const w = camVideo.videoWidth;
+  const h = camVideo.videoHeight;
+  if(!w || !h) return;
+  camCanvas.width = w;
+  camCanvas.height = h;
+  const ctx = camCanvas.getContext('2d');
+  // espelha o desenho para bater com o preview em modo selfie
+  ctx.translate(w, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(camVideo, 0, 0, w, h);
+  capturedPhoto = camCanvas.toDataURL('image/jpeg', 0.9);
+  camPhoto.src = capturedPhoto;
+  stopCamStream();
+  showCamView('result');
+});
+
+camRetakeBtn.addEventListener('click', () => {
+  capturedPhoto = null;
+  openCamera();
+});
+
+camRemoveBtn.addEventListener('click', () => {
+  capturedPhoto = null;
+  showCamView('empty');
+});
+
+// ---------- step navigation ----------
+function goToStep(n){
+  if(n !== 4) stopCamStream();
+  document.querySelectorAll('.b-panel').forEach(p => p.classList.toggle('active', p.dataset.panel == n));
+  document.querySelectorAll('.step').forEach(s => {
+    const step = parseInt(s.dataset.step);
+    s.classList.toggle('active', step === n);
+    s.classList.toggle('done', step < n);
+  });
+}
+
+document.getElementById('toStep2').addEventListener('click', () => goToStep(2));
+document.getElementById('toStep3').addEventListener('click', () => { goToStep(3); renderSlots(); });
+document.getElementById('toStep4').addEventListener('click', () => { goToStep(4); fillSummary(); });
+
+document.querySelectorAll('[data-back]').forEach(b => {
+  b.addEventListener('click', () => goToStep(parseInt(b.dataset.back)));
+});
+
+function fillSummary(){
+  document.getElementById('sumService').textContent = state.service.name;
+  document.getElementById('sumStylist').textContent = state.stylist.name;
+  const dateLabel = new Date(state.date + 'T00:00:00').toLocaleDateString('pt-BR', {day:'2-digit', month:'long'});
+  document.getElementById('sumDate').textContent = `${dateLabel} às ${state.time}`;
+  document.getElementById('sumPrice').textContent = `R$ ${state.service.price}`;
+  sumPhotoRow.style.display = capturedPhoto ? 'flex' : 'none';
+}
+
+// ---------- confirm booking ----------
+document.getElementById('confirmBtn').addEventListener('click', () => {
+  const name = document.getElementById('nameInput').value.trim();
+  const phone = document.getElementById('phoneInput').value.trim();
+  if(!name || !phone){
+    toast('Preencha nome e telefone para confirmar.');
+    return;
+  }
+  const dateKey = state.date === isoToday ? '__TODAY__' : state.date;
+  const key = `${state.stylist.id}|${dateKey}|${state.time}`;
+  bookedSlots.add(key); // held in memory only — resets on reload
+
+  bookingCounter++;
+  const code = '#OF-' + String(bookingCounter).padStart(4,'0');
+  document.getElementById('confirmCode').textContent = code;
+  const dateLabel = new Date(state.date + 'T00:00:00').toLocaleDateString('pt-BR', {day:'2-digit', month:'long'});
+  document.getElementById('confirmText').textContent =
+    `${name.split(' ')[0]}, seu horário de ${state.service.name.toLowerCase()} com ${state.stylist.name.split(' ')[0]} está reservado para ${dateLabel} às ${state.time}.`;
+
+  goToStep(5);
+});
+
+document.getElementById('newBooking').addEventListener('click', () => {
+  state = { service:null, stylist:null, date:null, time:null };
+  document.querySelectorAll('.choice.selected').forEach(c => c.classList.remove('selected'));
+  document.getElementById('nameInput').value = '';
+  document.getElementById('phoneInput').value = '';
+  document.getElementById('toStep2').disabled = true;
+  document.getElementById('toStep3').disabled = true;
+  document.getElementById('toStep4').disabled = true;
+  stopCamStream();
+  capturedPhoto = null;
+  showCamView('empty');
+  goToStep(1);
+});
+
+// ---------- testimonials carousel ----------
+const testimonials = [
+  {text:'Saí de lá com o cabelo mais saudável que já tive. O balayage ficou impecável.', name:'Marina Costa'},
+  {text:'Atendimento cuidadoso do início ao fim — parece um ateliê, não um salão qualquer.', name:'Juliana Prado'},
+  {text:'O corte do Rafael mudou meu visual completamente. Recomendo de olhos fechados.', name:'Pedro Lima'},
+  {text:'A hidratação da Bianca salvou meu cabelo depois da descoloração. Voltarei sempre.', name:'Ana Beatriz'},
+];
+const tWrap = document.getElementById('tWrap');
+const tDots = document.getElementById('tDots');
+testimonials.forEach((t, i) => {
+  const s = document.createElement('div');
+  s.className = 't-slide' + (i === 0 ? ' active' : '');
+  s.innerHTML = `<p>"${t.text}"</p><cite>${t.name}</cite>`;
+  tWrap.appendChild(s);
+  const d = document.createElement('span');
+  if(i === 0) d.classList.add('active');
+  d.addEventListener('click', () => showTestimonial(i));
+  tDots.appendChild(d);
+});
+let tIndex = 0;
+function showTestimonial(i){
+  document.querySelectorAll('.t-slide').forEach((s,idx) => s.classList.toggle('active', idx===i));
+  document.querySelectorAll('#tDots span').forEach((d,idx) => d.classList.toggle('active', idx===i));
+  tIndex = i;
+}
+setInterval(() => showTestimonial((tIndex + 1) % testimonials.length), 5000);
+
+// ---------- reveal-on-scroll for sections ----------
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.style.opacity = 1;
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, {threshold:0.12});
+document.querySelectorAll('section').forEach(s => {
+  s.style.opacity = 0;
+  s.style.transform = 'translateY(24px)';
+  s.style.transition = 'opacity .8s ease, transform .8s ease';
+  io.observe(s);
+});
+// hero always visible immediately
+document.querySelector('.hero').style.opacity = 1;
+document.querySelector('.hero').style.transform = 'none';
+</script>
+</body>
+</html>

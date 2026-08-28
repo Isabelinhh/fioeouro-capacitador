@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">fio e ouro</string>
+    <string name="title_activity_main">fio e ouro</string>
+    <string name="package_name">com.fio.e.ouro</string>
+    <string name="custom_url_scheme">com.fio.e.ouro</string>
+</resources>
