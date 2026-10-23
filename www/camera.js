@@ -1,5 +1,5 @@
 /* ========================================================
-   Foto de referência — componente React + @capacitor/camera
+   Vistoria — componente React + @capacitor/camera
    (sem bundler: React 18 UMD em www/vendor, plugin acessado via
    window.Capacitor.Plugins, que o Capacitor injeta no app nativo)
    ======================================================== */
@@ -74,16 +74,12 @@
             setError('Permissão negada. Ative Câmera/Fotos nas configurações do app para anexar uma imagem.');
             return;
           }
-          // source: 'prompt' -> diálogo do Android "Câmera ou Galeria"
+          // CameraSource.Camera = 'CAMERA' | CameraResultType.Uri = 'uri'
           photo = await Camera.getPhoto({
             quality: 80,
             allowEditing: false,
             resultType: 'uri', // devolve webPath
-            source: 'prompt',
-            promptLabelHeader: 'Foto de referência',
-            promptLabelPhoto: 'Escolher da galeria',
-            promptLabelPicture: 'Tirar foto',
-            promptLabelCancel: 'Cancelar',
+            source: 'CAMERA',
           });
         } else {
           photo = await pickFileOnWeb();
@@ -120,16 +116,16 @@
     // Renderização condicional: com foto -> preview; sem foto -> botão
     const content = photoUrl
       ? h('div', { className: 'camera-result', style: { display: 'block' } },
-          h('img', { src: photoUrl, alt: 'Foto de referência selecionada', id: 'camPhoto' }),
+          h('img', { src: photoUrl, alt: 'Foto da vistoria do imóvel', id: 'camPhoto' }),
           h('div', { className: 'camera-result-actions' },
-            h('button', { type: 'button', className: 'btn-outline', onClick: takeOrPickPhoto, disabled: loading }, 'Trocar foto'),
+            h('button', { type: 'button', className: 'btn-outline', onClick: takeOrPickPhoto, disabled: loading }, 'Refazer foto'),
             h('button', { type: 'button', className: 'cam-remove', 'aria-label': 'Remover foto', onClick: () => updatePhoto(null) }, '✕')))
       : h('div', { className: 'camera-empty' },
           cameraIcon,
-          h('p', null, 'Mostre à cabeleireira o corte, cor ou inspiração que você tem em mente.'),
+          h('p', null, 'Registre o estado das paredes, cômodos e chaves na entrega do imóvel.'),
           error && h('div', { className: 'camera-error-msg', style: { padding: '4px 0' } }, error),
           h('button', { type: 'button', className: 'btn-outline', id: 'camOpenBtn', onClick: takeOrPickPhoto, disabled: loading },
-            loading ? 'Abrindo…' : 'Tirar Foto / Galeria'));
+            loading ? 'Abrindo…' : 'Fotografar Cômodo / Chaves'));
 
     return h('div', { className: 'camera-box' + (error ? ' cam-error' : '') }, content);
   }
