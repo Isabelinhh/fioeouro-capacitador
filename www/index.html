@@ -364,7 +364,7 @@
   .camera-live-actions .btn-outline, .camera-live-actions .btn-gold{padding:12px 26px;font-size:0.76rem;}
 
   .camera-result{width:100%;position:relative;}
-  .camera-result img{width:100%;max-height:360px;object-fit:cover;display:block;transform:scaleX(-1);}
+  .camera-result img{width:100%;max-height:360px;object-fit:cover;display:block;}
   .camera-result-actions{
     position:absolute;bottom:14px;left:0;right:0;
     display:flex;justify-content:center;gap:12px;
@@ -668,30 +668,7 @@
 
       <div class="field">
         <label>Foto de referência (opcional)</label>
-        <div class="camera-box" id="cameraBox">
-          <div class="camera-empty" id="cameraEmpty">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c6a15b" stroke-width="1.3"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.4"/></svg>
-            <p>Mostre à cabeleireira o corte, cor ou inspiração que você tem em mente.</p>
-            <button type="button" class="btn-outline" id="camOpenBtn">Ativar câmera</button>
-          </div>
-
-          <div class="camera-live" id="cameraLive" style="display:none;">
-            <video id="camVideo" autoplay playsinline muted></video>
-            <div class="camera-live-actions">
-              <button type="button" class="btn-outline" id="camCancelBtn">Cancelar</button>
-              <button type="button" class="btn-gold" id="camShotBtn">Capturar foto</button>
-            </div>
-          </div>
-
-          <div class="camera-result" id="cameraResult" style="display:none;">
-            <img id="camPhoto" alt="Foto de referência capturada">
-            <div class="camera-result-actions">
-              <button type="button" class="btn-outline" id="camRetakeBtn">Tirar outra</button>
-              <button type="button" class="cam-remove" id="camRemoveBtn" aria-label="Remover foto">✕</button>
-            </div>
-          </div>
-        </div>
-        <canvas id="camCanvas" style="display:none;"></canvas>
+        <div id="camera-root"></div>
       </div>
 
       <div style="margin:28px 0;">
@@ -774,6 +751,9 @@
 
 <div id="toast"></div>
 
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script src="camera.js"></script>
 <script>
 /* ========================================================
    OURO & FIO — lógica funcional, 100% em memória (sem BD)
@@ -900,94 +880,15 @@ function renderSlots(){
 }
 
 // ---------- câmera (foto de referência) ----------
-const cameraBox = document.getElementById('cameraBox');
-const cameraEmpty = document.getElementById('cameraEmpty');
-const cameraLive = document.getElementById('cameraLive');
-const cameraResult = document.getElementById('cameraResult');
-const camVideo = document.getElementById('camVideo');
-const camPhoto = document.getElementById('camPhoto');
-const camCanvas = document.getElementById('camCanvas');
-const camOpenBtn = document.getElementById('camOpenBtn');
-const camCancelBtn = document.getElementById('camCancelBtn');
-const camShotBtn = document.getElementById('camShotBtn');
-const camRetakeBtn = document.getElementById('camRetakeBtn');
-const camRemoveBtn = document.getElementById('camRemoveBtn');
+// A UI e a lógica do @capacitor/camera ficam em www/camera.js (componente React).
+// Ele avisa esta página sempre que a foto muda:
+let capturedPhoto = null; // webPath da foto, só em memória
+window.onPhotoChange = (webPath) => { capturedPhoto = webPath; };
+window.showToast = toast;
 const sumPhotoRow = document.getElementById('sumPhotoRow');
-
-let camStream = null;
-let capturedPhoto = null; // data URL, mantido só em memória
-
-function stopCamStream(){
-  if(camStream){
-    camStream.getTracks().forEach(t => t.stop());
-    camStream = null;
-  }
-}
-
-function showCamView(view){
-  // view: 'empty' | 'live' | 'result' | 'error'
-  cameraEmpty.style.display = view === 'empty' ? 'flex' : 'none';
-  cameraLive.style.display = view === 'live' ? 'block' : 'none';
-  cameraResult.style.display = view === 'result' ? 'block' : 'none';
-  cameraBox.classList.toggle('cam-error', view === 'error');
-}
-
-async function openCamera(){
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    showCamView('error');
-    cameraEmpty.innerHTML = '<div class="camera-error-msg">Este navegador não tem suporte a câmera. Você pode continuar sem a foto.</div>';
-    showCamView('empty');
-    return;
-  }
-  try{
-    camStream = await navigator.mediaDevices.getUserMedia({
-      video:{ facingMode:'user' },
-      audio:false
-    });
-    camVideo.srcObject = camStream;
-    showCamView('live');
-  }catch(err){
-    toast('Não foi possível acessar a câmera. Verifique a permissão do navegador.');
-  }
-}
-
-camOpenBtn.addEventListener('click', openCamera);
-
-camCancelBtn.addEventListener('click', () => {
-  stopCamStream();
-  showCamView('empty');
-});
-
-camShotBtn.addEventListener('click', () => {
-  const w = camVideo.videoWidth;
-  const h = camVideo.videoHeight;
-  if(!w || !h) return;
-  camCanvas.width = w;
-  camCanvas.height = h;
-  const ctx = camCanvas.getContext('2d');
-  // espelha o desenho para bater com o preview em modo selfie
-  ctx.translate(w, 0);
-  ctx.scale(-1, 1);
-  ctx.drawImage(camVideo, 0, 0, w, h);
-  capturedPhoto = camCanvas.toDataURL('image/jpeg', 0.9);
-  camPhoto.src = capturedPhoto;
-  stopCamStream();
-  showCamView('result');
-});
-
-camRetakeBtn.addEventListener('click', () => {
-  capturedPhoto = null;
-  openCamera();
-});
-
-camRemoveBtn.addEventListener('click', () => {
-  capturedPhoto = null;
-  showCamView('empty');
-});
 
 // ---------- step navigation ----------
 function goToStep(n){
-  if(n !== 4) stopCamStream();
   document.querySelectorAll('.b-panel').forEach(p => p.classList.toggle('active', p.dataset.panel == n));
   document.querySelectorAll('.step').forEach(s => {
     const step = parseInt(s.dataset.step);
@@ -1043,9 +944,8 @@ document.getElementById('newBooking').addEventListener('click', () => {
   document.getElementById('toStep2').disabled = true;
   document.getElementById('toStep3').disabled = true;
   document.getElementById('toStep4').disabled = true;
-  stopCamStream();
   capturedPhoto = null;
-  showCamView('empty');
+  if(window.cameraApi) window.cameraApi.reset();
   goToStep(1);
 });
 
